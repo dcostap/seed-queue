@@ -66,7 +66,7 @@ function updateSelectedSeedUI(seed) {
 function deleteSeed() {
     if (selectedSeed !== null) {
         // Remove the selected seed from the JSON object in the hidden Textbox
-        var hiddenInput = document.getElementsByName("hidden_prompt_seed_pairs_input")[0];
+        var hiddenInput = document.querySelector("#hidden_prompt_seed_pairs_input textarea[data-testid='textbox']");
         var seedPromptPairs = JSON.parse(hiddenInput.value);
 
         seedPromptPairs = seedPromptPairs.filter(pair => pair.seed !== selectedSeed);
@@ -92,7 +92,7 @@ function deleteSeed() {
 
 function deleteAllSeeds() {
     // Clear the JSON object in the hidden Textbox
-    var hiddenInput = document.getElementsByName("hidden_prompt_seed_pairs_input")[0];
+    var hiddenInput = document.querySelector("#hidden_prompt_seed_pairs_input textarea[data-testid='textbox']");
     hiddenInput.value = "";
 
     // Clear the list element

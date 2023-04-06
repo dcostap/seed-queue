@@ -53,20 +53,22 @@ class Script(scripts.Script):
         p.n_iter = 1
         p.batch_size = 1
 
-        # TODO: PARSE hidden_prompt_seed_pairs_input and retrieve the seeds into dest_seed, and each seed prompt into another variable
-        dest_seed = "1000, 1001"
-        #####
+        import json
+        # Parse hidden_prompt_seed_pairs_input and retrieve the seeds and prompts
+        seedPromptPairs = json.loads(hidden_prompt_seed_pairs_input)
+        seeds = [int(pair["seed"]) for pair in seedPromptPairs]
+        prompts = [pair["prompt"] for pair in seedPromptPairs]
 
-        # Manual seeds
-        seeds = [int(x.strip()) for x in dest_seed.split(",")]
-
-        for seed in seeds:
+        # Generate images for each seed and prompt
+        for seed, prompt in zip(seeds, prompts):
             if state.interrupted:
                 break
             p.seed = seed
+            p.prompt = prompt
             fix_seed(p)
             proc = process_images(p)
             images += proc.images
+
 
         return Processed(p, images, p.seed, proc.info)
 

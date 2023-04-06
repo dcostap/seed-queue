@@ -42,8 +42,14 @@ function getSeed() {
 
 
 function getPromptText() {
-    var promptTextArea = document.querySelector('label textarea.autocomplete');
-    return promptTextArea.value;
+    var infoDivContent = document.querySelector("#html_info_txt2img").textContent;
+    var negativePromptIndex = infoDivContent.indexOf("\nNegative prompt:");
+    if (negativePromptIndex >= 0) {
+        return infoDivContent.slice(0, negativePromptIndex);
+    } else {
+        alert("Error: Negative prompt not found in output viewer.");
+        return "";
+    }
 }
 
 function setSelectedSeed(seed) {

@@ -9,7 +9,7 @@ function getSeed() {
         var promptText = getPromptText();
 
         // Add the seed and promptText to the hidden input as a JSON object
-        var hiddenInput = document.getElementsByName("hidden_prompt_seed_pairs_input")[0];
+        var hiddenInput = document.querySelector("#hidden_prompt_seed_pairs_input textarea[data-testid='textbox']");
         var seedPromptPairs = hiddenInput.value ? JSON.parse(hiddenInput.value) : [];
 
         var existingPairIndex = seedPromptPairs.findIndex(pair => pair.seed === seed);

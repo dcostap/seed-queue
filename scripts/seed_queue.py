@@ -28,12 +28,19 @@ class Script(scripts.Script):
 
         # Add a gradio.HTML component with a button
         get_seed_button = gr.HTML("""
-            <button id="get-seed-button" onclick="getSeed()">Get Seed</button>
+            <button id="get-seed-button" class="gradio_button svelte-1v6o9pu" onclick="getSeed()">Get Seed</button>
         """)
 
-        return [dest_seed, enabled, get_seed_button]
+        seed_prompt_table = gr.Table(
+            label='Seed and Prompt Pairs',
+            columns=['Seed', 'Prompt', 'Delete'],
+            rows=[],
+            editable=False
+        )
 
-    def run(self, p, dest_seed, enabled):
+        return [dest_seed, enabled, get_seed_button, seed_prompt_table]
+
+    def run(self, p, enabled, seed_prompt_table):
         if not enabled:
             return None
 
@@ -43,18 +50,21 @@ class Script(scripts.Script):
         p.n_iter = 1
         p.batch_size = 1
 
-        # Manual seeds
-        seeds = [int(x.strip()) for x in dest_seed.split(",")]
+        # Read seed and prompt pairs from the table
+        seed_prompt_pairs = seed_prompt_table.get("value", [])
 
-        for seed in seeds:
+        for seed, prompt, _ in seed_prompt_pairs:
             if state.interrupted:
                 break
-            p.seed = seed
+            p.seed = int(seed)
+            # Set the prompt value here, depending on how you plan to use it
+            p.prompt = prompt
             fix_seed(p)
             proc = process_images(p)
             images += proc.images
 
         return Processed(p, images, p.seed, proc.info)
+
 
 
     def describe(self):

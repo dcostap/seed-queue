@@ -66,7 +66,7 @@ function updateSelectedSeedUI(seed) {
     var items = seedList.getElementsByTagName("li");
     for (var i = 0; i < items.length; i++) {
         if (items[i].textContent === seed) {
-            items[i].style.backgroundColor = "lightblue";
+            items[i].style.backgroundColor = "#405530";
         } else {
             items[i].style.backgroundColor = "";
         }

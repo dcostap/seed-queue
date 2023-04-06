@@ -24,18 +24,31 @@ class Script(scripts.Script):
     def ui(self, is_img2img):
         enabled = gr.Checkbox(label='Enabled', value=False)
 
-        get_seed_button = gr.HTML("""
-            <button id="get-seed-button" class="lg secondary gradio-button" onclick="storeCurrentPreviewInfo()">Store current image info</button>
+        style_html = """
+        display: inline-block;
+        padding: 5px 17px;
+        border: 1px solid #ccc;
+        background-color: #c7c7c7;
+        color: #000;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 5px;
+"""
+
+        get_seed_button = gr.HTML(f"""
+            <button id="get-seed-button" class="lg secondary gradio-button" onclick="storeCurrentPreviewInfo()" style="{style_html}">Store current image info</button>
         """)
 
         seed_list = gr.HTML('<ul id="seed_list"></ul>')
 
-        delete_seed_button = gr.HTML("""
-            <button id="delete-seed-button" class="lg secondary gradio-button" onclick="deleteSeed()">Delete Seed</button>
+        delete_seed_button = gr.HTML(f"""
+            <button id="delete-seed-button" class="lg secondary gradio-button" onclick="deleteSeed()" style="{style_html}">Delete Seed</button>
         """)
 
-        delete_all_seeds_button = gr.HTML("""
-            <button id="delete-all-seeds-button" class="lg secondary gradio-button" onclick="deleteAllSeeds()">Delete All Seeds</button>
+        delete_all_seeds_button = gr.HTML(f"""
+            <button id="delete-all-seeds-button" class="lg secondary gradio-button" onclick="deleteAllSeeds()" style="{style_html}">Delete All Seeds</button>
         """)
 
         hidden_prompt_seed_pairs_input = gr.Textbox(elem_id="hidden_prompt_seed_pairs_input", label="stored preview", lines=5)

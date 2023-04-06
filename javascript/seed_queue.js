@@ -22,6 +22,9 @@ function storeCurrentPreviewInfo() {
         }
 
         hiddenInput.value = "<json>" + JSON.stringify(seedPromptPairs) + "<json>";
+
+        // hack: need to manually send event everytime i make changes from javascript
+        // sending the event notifies gradio to update its info about the new text in this gradio-generated textbox
         var inputEvent = new Event('input', { bubbles: true });
         hiddenInput.dispatchEvent(inputEvent);
 

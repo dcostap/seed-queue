@@ -51,6 +51,8 @@ class Script(scripts.Script):
             <button id="delete-all-seeds-button" class="lg secondary gradio-button" onclick="deleteAllSeeds()" style="{style_html}">Delete All Seeds</button>
         """)
 
+
+        # hack: this textbox will contain the raw json representing the stored seed & prompt pairs. It's modified in javascript
         hidden_prompt_seed_pairs_input = gr.Textbox(elem_id="hidden_prompt_seed_pairs_input", label="stored preview", lines=5)
 
         return [enabled, hidden_prompt_seed_pairs_input]

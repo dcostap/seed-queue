@@ -22,11 +22,16 @@ class Script(scripts.Script):
         return True
 
     def ui(self, is_img2img):
-        dest_seed = gr.Textbox(label='Seed(s) (Comma separated)', lines=1)
+        enabled = gr.Checkbox(label='Enabled', value=False)
+        with gr.Row():
+            dest_seed = gr.Textbox(label='Seed(s) (Comma separated)', lines=1)
 
-        return [dest_seed]
+        return [dest_seed, enabled]
 
-    def run(self, p, dest_seed):
+    def run(self, p, dest_seed, enabled):
+        if not enabled:
+            return None
+
         images = []
 
         # Force Batch Count and Batch Size to 1.

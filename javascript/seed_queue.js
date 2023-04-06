@@ -12,7 +12,7 @@ function storeCurrentPreviewInfo() {
 
         // Add the seed and promptText to the hidden input as a JSON object
         var hiddenInput = document.querySelector("#hidden_prompt_seed_pairs_input textarea[data-testid='textbox']");
-        var seedPromptPairs = hiddenInput.value ? JSON.parse(hiddenInput.value) : [];
+        var seedPromptPairs = JSON.parse(hiddenInput.value.replace(/<json>/g, ''));
 
         var existingPairIndex = seedPromptPairs.findIndex(pair => pair.seed === seed);
         if (existingPairIndex > -1) {
@@ -21,7 +21,7 @@ function storeCurrentPreviewInfo() {
             seedPromptPairs.push({seed: seed, prompt: promptText});
         }
 
-        hiddenInput.value = JSON.stringify(seedPromptPairs);
+        hiddenInput.value = "<json>" + JSON.stringify(seedPromptPairs) + "<json>";
 
         // Add the seed to the visible list
         var seedList = document.getElementById("seed_list");
@@ -75,10 +75,10 @@ function deleteSeed() {
     if (selectedSeed !== null) {
         // Remove the selected seed from the JSON object in the hidden Textbox
         var hiddenInput = document.querySelector("#hidden_prompt_seed_pairs_input textarea[data-testid='textbox']");
-        var seedPromptPairs = JSON.parse(hiddenInput.value);
+        var seedPromptPairs = JSON.parse(hiddenInput.value.replace(/<json>/g, ''));
 
         seedPromptPairs = seedPromptPairs.filter(pair => pair.seed !== selectedSeed);
-        hiddenInput.value = JSON.stringify(seedPromptPairs);
+        hiddenInput.value = "<json>" + JSON.stringify(seedPromptPairs) + "<json>";
 
         // Remove the selected seed from the list element
         var seedList = document.getElementById("seed_list");

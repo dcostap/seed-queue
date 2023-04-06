@@ -47,6 +47,8 @@ class Script(scripts.Script):
         if not enabled:
             return None
 
+        hidden_prompt_seed_pairs_input = hidden_prompt_seed_pairs_input.replace("<json>", "")
+
         print("hidden_prompt_seed_pairs_input: " + hidden_prompt_seed_pairs_input)
 
         images = []

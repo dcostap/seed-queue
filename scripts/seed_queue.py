@@ -19,13 +19,13 @@ class Script(scripts.Script):
         return "Seeds Queue"
 
     def show(self, is_img2img):
-        return True
+        return not is_img2img
 
     def ui(self, is_img2img):
         enabled = gr.Checkbox(label='Enabled', value=False)
 
         get_seed_button = gr.HTML("""
-            <button id="get-seed-button" class="gradio_button svelte-1v6o9pu" onclick="getSeed()">Get Seed</button>
+            <button id="get-seed-button" class="gradio_button svelte-1v6o9pu" onclick="storeCurrentPreviewInfo()">Store current image info</button>
         """)
 
         seed_list = gr.HTML('<ul id="seed_list"></ul>')
@@ -38,7 +38,7 @@ class Script(scripts.Script):
             <button id="delete-all-seeds-button" class="gradio_button svelte-1v6o9pu" onclick="deleteAllSeeds()">Delete All Seeds</button>
         """)
 
-        hidden_prompt_seed_pairs_input = gr.Textbox(elem_id="hidden_prompt_seed_pairs_input", label="", style={"display": "none"})
+        hidden_prompt_seed_pairs_input = gr.Textbox(elem_id="hidden_prompt_seed_pairs_input", label="stored preview", lines=5)
 
         return [enabled, hidden_prompt_seed_pairs_input]
 

@@ -1,12 +1,14 @@
 var selectedSeed = null;
 
-function getSeed() {
+function storeCurrentPreviewInfo() {
     var infoDivContent = document.querySelector("#html_info_txt2img").textContent;
     var seedRegex = /Seed:\s+(\d+)/;
     var seedMatch = infoDivContent.match(seedRegex);
     if (seedMatch) {
         var seed = seedMatch[1];
         var promptText = getPromptText();
+        if (promptText == null)
+            return;
 
         // Add the seed and promptText to the hidden input as a JSON object
         var hiddenInput = document.querySelector("#hidden_prompt_seed_pairs_input textarea[data-testid='textbox']");
@@ -48,7 +50,7 @@ function getPromptText() {
         return infoDivContent.slice(0, negativePromptIndex);
     } else {
         alert("Error: Negative prompt not found in output viewer.");
-        return "";
+        return null;
     }
 }
 

@@ -23,8 +23,6 @@ class Script(scripts.Script):
 
     def ui(self, is_img2img):
         enabled = gr.Checkbox(label='Enabled', value=False)
-        with gr.Row():
-            dest_seed = gr.Textbox(label='Seed(s) (Comma separated)', lines=1)
 
         get_seed_button = gr.HTML("""
             <button id="get-seed-button" class="gradio_button svelte-1v6o9pu" onclick="getSeed()">Get Seed</button>
@@ -42,7 +40,7 @@ class Script(scripts.Script):
 
         hidden_prompt_seed_pairs_input = gr.Textbox(elem_id="hidden_prompt_seed_pairs_input", label="", style={"display": "none"})
 
-        return [dest_seed, enabled, hidden_prompt_seed_pairs_input]
+        return [enabled, hidden_prompt_seed_pairs_input]
 
 
     def run(self, p, enabled, hidden_prompt_seed_pairs_input):

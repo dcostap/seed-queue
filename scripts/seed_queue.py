@@ -26,27 +26,9 @@ class Script(scripts.Script):
         with gr.Row():
             dest_seed = gr.Textbox(label='Seed(s) (Comma separated)', lines=1)
 
-        # Add a gradio.HTML component with JavaScript code
+        # Add a gradio.HTML component with a button
         get_seed_button = gr.HTML("""
-            <button id="get-seed-button">Get Seed</button>
-            <script>
-                document.querySelector("#get-seed-button").onclick = function() {
-                    var infoDivContent = document.querySelector("#html_info_txt2img").textContent;
-                    var seedRegex = /Seed:\s+(\d+)/;
-                    var seedMatch = infoDivContent.match(seedRegex);
-                    if (seedMatch) {
-                        var seed = seedMatch[1];
-                        var destSeedInput = document.querySelector('[label="Seed(s) (Comma separated)"] input');
-                        if (destSeedInput.value.trim() === "") {
-                            destSeedInput.value = seed;
-                        } else {
-                            destSeedInput.value += ", " + seed;
-                        }
-                    } else {
-                        alert("No seed found in the output viewer.");
-                    }
-                };
-            </script>
+            <button id="get-seed-button" onclick="getSeed()">Get Seed</button>
         """)
 
         return [dest_seed, enabled, get_seed_button]

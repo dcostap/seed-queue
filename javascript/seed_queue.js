@@ -12,7 +12,7 @@ function storeCurrentPreviewInfo() {
 
         // Add the seed and promptText to the hidden input as a JSON object
         var hiddenInput = document.querySelector("#hidden_prompt_seed_pairs_input textarea[data-testid='textbox']");
-        var seedPromptPairs = JSON.parse(hiddenInput.value.replace(/<json>/g, ''));
+        var seedPromptPairs = hiddenInput.value ? JSON.parse(hiddenInput.value.replace(/<json>/g, '')) : [];
 
         var existingPairIndex = seedPromptPairs.findIndex(pair => pair.seed === seed);
         if (existingPairIndex > -1) {
@@ -22,6 +22,8 @@ function storeCurrentPreviewInfo() {
         }
 
         hiddenInput.value = "<json>" + JSON.stringify(seedPromptPairs) + "<json>";
+        var inputEvent = new Event('input', { bubbles: true });
+        hiddenInput.dispatchEvent(inputEvent);
 
         // Add the seed to the visible list
         var seedList = document.getElementById("seed_list");
@@ -75,10 +77,12 @@ function deleteSeed() {
     if (selectedSeed !== null) {
         // Remove the selected seed from the JSON object in the hidden Textbox
         var hiddenInput = document.querySelector("#hidden_prompt_seed_pairs_input textarea[data-testid='textbox']");
-        var seedPromptPairs = JSON.parse(hiddenInput.value.replace(/<json>/g, ''));
+        var seedPromptPairs = hiddenInput.value ? JSON.parse(hiddenInput.value.replace(/<json>/g, '')) : [];
 
         seedPromptPairs = seedPromptPairs.filter(pair => pair.seed !== selectedSeed);
         hiddenInput.value = "<json>" + JSON.stringify(seedPromptPairs) + "<json>";
+        var inputEvent = new Event('input', { bubbles: true });
+        hiddenInput.dispatchEvent(inputEvent);
 
         // Remove the selected seed from the list element
         var seedList = document.getElementById("seed_list");
@@ -102,6 +106,8 @@ function deleteAllSeeds() {
     // Clear the JSON object in the hidden Textbox
     var hiddenInput = document.querySelector("#hidden_prompt_seed_pairs_input textarea[data-testid='textbox']");
     hiddenInput.value = "";
+    var inputEvent = new Event('input', { bubbles: true });
+    hiddenInput.dispatchEvent(inputEvent);
 
     // Clear the list element
     var seedList = document.getElementById("seed_list");

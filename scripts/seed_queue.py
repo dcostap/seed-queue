@@ -47,6 +47,8 @@ class Script(scripts.Script):
         if not enabled:
             return None
 
+        print("hidden_prompt_seed_pairs_input: " + hidden_prompt_seed_pairs_input)
+
         images = []
 
         # Force Batch Count and Batch Size to 1.

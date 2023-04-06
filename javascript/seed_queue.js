@@ -46,7 +46,8 @@ function storeCurrentPreviewInfo() {
 
 
 function getPromptText() {
-    var infoDivContent = document.querySelector("#html_info_txt2img").textContent;
+    // hack: there's multiple elements with this id so we search for the one that has a <p> inside...
+    var infoDivContent = document.querySelector("#html_info_txt2img>p").textContent;
     var negativePromptIndex = infoDivContent.indexOf("\nNegative prompt:");
     if (negativePromptIndex >= 0) {
         return infoDivContent.slice(0, negativePromptIndex);

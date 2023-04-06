@@ -60,8 +60,9 @@ class Script(scripts.Script):
         if not enabled:
             return None
 
+        # hack: i surround the contents of the textbox with <json> so that here, when gradio sends back the contents, it actually works
+        # otherwise since the text contents are pure json gradio sends back empty / None for some reason
         hidden_prompt_seed_pairs_input = hidden_prompt_seed_pairs_input.replace("<json>", "")
-
         print("hidden_prompt_seed_pairs_input: " + hidden_prompt_seed_pairs_input)
 
         images = []

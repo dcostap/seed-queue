@@ -40,7 +40,7 @@ class Script(scripts.Script):
             <button id="delete-all-seeds-button" class="gradio_button svelte-1v6o9pu" onclick="deleteAllSeeds()">Delete All Seeds</button>
         """)
 
-        hidden_prompt_seed_pairs_input = gr.Textbox(id="hidden_prompt_seed_pairs_input", label="", style={"display": "none"})
+        hidden_prompt_seed_pairs_input = gr.Textbox(elem_id="hidden_prompt_seed_pairs_input", label="", style={"display": "none"})
 
         return [dest_seed, enabled, hidden_prompt_seed_pairs_input]
 

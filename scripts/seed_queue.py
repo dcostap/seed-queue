@@ -52,8 +52,8 @@ class Script(scripts.Script):
         """)
 
 
-        # hack: this textbox will contain the raw json representing the stored seed & prompt pairs. It's modified in javascript
-        hidden_prompt_seed_pairs_input = gr.Textbox(elem_id="hidden_prompt_seed_pairs_input", label="stored preview", lines=5)
+        # hack: this textbox will contain the raw json representing the stored seed & prompt pairs. It's modified / updated in javascript code
+        hidden_prompt_seed_pairs_input = gr.Textbox(elem_id="hidden_prompt_seed_pairs_input", label="stored preview", lines=3, max_lines=8, interactive=False)
 
         return [enabled, hidden_prompt_seed_pairs_input]
 
@@ -65,32 +65,22 @@ class Script(scripts.Script):
         # hack: i surround the contents of the textbox with <json> so that here, when gradio sends back the contents, it actually works
         # otherwise since the text contents are pure json gradio sends back empty / None for some reason
         hidden_prompt_seed_pairs_input = hidden_prompt_seed_pairs_input.replace("<json>", "")
-        print("hidden_prompt_seed_pairs_input: " + hidden_prompt_seed_pairs_input)
-
-        images = []
-
-        # Force Batch Count and Batch Size to 1.
-        p.n_iter = 1
-        p.batch_size = 1
 
         import json
         # Parse hidden_prompt_seed_pairs_input and retrieve the seeds and prompts
-        seedPromptPairs = json.loads(hidden_prompt_seed_pairs_input)
-        seeds = [int(pair["seed"]) for pair in seedPromptPairs]
-        prompts = [pair["prompt"] for pair in seedPromptPairs]
+        seed_prompt_pairs = json.loads(hidden_prompt_seed_pairs_input)
+        seeds = [int(pair["seed"]) for pair in seed_prompt_pairs]
+        prompts = [pair["prompt"] for pair in seed_prompt_pairs]
+
+        p.n_iter = len(seeds)
+        p.batch_size = 1
+
+        p.do_not_save_grid = True
 
         # Generate images for each seed and prompt
-        for seed, prompt in zip(seeds, prompts):
-            if state.interrupted:
-                break
-            p.seed = seed
-            p.prompt = prompt
-            fix_seed(p)
-            proc = process_images(p)
-            images += proc.images
-
-
-        return Processed(p, images, p.seed, proc.info)
+        p.seed = [seed for seed in seeds]
+        p.prompt = [prompt for prompt in prompts]
+        return process_images(p)
 
 
     def describe(self):
